@@ -13,7 +13,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
     /// </summary>
     public class TimelineObjectModel : _ObjectModel
     {
-      /*--- Property/Field Definitions ------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Property/Field Definitions ------------------------------------------------------------------------------------------------------------------------------*/
 
         /// <summary> タイマーデータ
         /// </summary>
@@ -22,7 +22,8 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
         /// <summary> タイムライン名
         /// </summary>
         public string Name { get; private set; }
-
+        public TtsSpeaker TtsSpeaker { get; set; }
+        public string TtsSentence { get; set; }
         /// <summary> アクティビティアイテムコレクション
         /// </summary>
         public ObservableCollection<TimelineActivityData> ActivityCollection { get; private set; }
@@ -47,8 +48,8 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
         /// </summary>
         public List<TimelineAlertObjectModel> AlertList { get; private set; }
 
-      /*--- Constructers --------------------------------------------------------------------------------------------------------------------------------------------*/
-        
+        /*--- Constructers --------------------------------------------------------------------------------------------------------------------------------------------*/
+
         /// <summary> タイムライン／タイムラインオブジェクトモデル／コンストラクタ
         /// </summary>
         public TimelineObjectModel()
@@ -56,7 +57,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
             this.initObjectModel();
         }
 
-      /*--- Method: Initialization ----------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Method: Initialization ----------------------------------------------------------------------------------------------------------------------------------*/
 
         /// <summary> オブジェクトモデルの初期化を実行します。
         /// </summary>
@@ -73,7 +74,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
             return true;
         }
 
-      /*--- Method: public ------------------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Method: public ------------------------------------------------------------------------------------------------------------------------------------------*/
 
         /// <summary> タイムラインデータを生成します。
         /// </summary>
@@ -116,7 +117,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
             this.EndTime = this.ActivityCollection.Any() ? this.ActivityCollection.Last().EndTime : 0;
 
             this.TimerData.CurrentCombatEndTime = this.EndTime;
-            
+
         }
 
         /// <summary> データの全体クリアを実行します。
@@ -136,7 +137,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
             return true;
         }
 
-      /*--- Method: private -----------------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Method: private -----------------------------------------------------------------------------------------------------------------------------------------*/
 
         private int FindFirstItemIndexAfterEndTime(double t)
         {
@@ -218,5 +219,5 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
         }
 
     }
-    
+
 }

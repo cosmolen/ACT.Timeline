@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Globalization;
 using Sprache;
 using System;
@@ -14,6 +15,15 @@ namespace FairyZeta.FF14.ACT.Timeline.Core
         public string ActivityName;
         public double ReminderTime;
         public AlertSoundData AlertSound;
+        public TtsSpeaker TtsSpeaker;
+        public string TtsSentence;
+        public AlertType Type;
+
+        public enum AlertType
+        {
+            Sound,
+            Tts
+        }
     }
 
     public class TimelineConfig
@@ -24,6 +34,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core
         public List<string> HideAlls;
         public List<TimelineAlertObjectModel> Alerts;
         public AlertSoundAssets AlertSoundAssets;
+        public List<TtsSpeaker> Speakers;
 
         public TimelineConfig()
         {
@@ -33,6 +44,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core
             HideAlls = new List<string>();
             Alerts = new List<TimelineAlertObjectModel>();
             AlertSoundAssets = new AlertSoundAssets();
+            Speakers = new List<TtsSpeaker>();
         }
     }
 
@@ -143,13 +155,42 @@ namespace FairyZeta.FF14.ACT.Timeline.Core
                     });
                 }
             })).Named("TimelineActivityStatement");
-
+        //
         static readonly Parser<Tuple<string, string>> AlertSoundAlias =
-            from define_alertsound in Parse.Regex(@"^define\s+alertsound\s+")
-            from alias in MaybeQuotedString
+            from define_keyword in Parse.String("define")
             from spaces in Spaces
+            from alertsound_keyword in Parse.String("alertsound")
+            from spaces2 in Spaces
+            from alias in MaybeQuotedString
+            from spaces3 in Spaces
             from target in MaybeQuotedString
             select new Tuple<string, string>(alias, target);
+
+        static readonly Parser<Tuple<string, string, string>> TtsAlias =
+            from define_keyword in Parse.String("define")
+            from spaces in Spaces
+            from tts_keyword in Parse.String("speaker")
+            from spaces2 in Spaces
+            from name in MaybeQuotedString
+            from spaces3 in Spaces
+            from rate in Parse.Regex(@"^\-?[0-9]+")
+            from spaces4 in Spaces
+            from volume in Parse.Regex("^[0-9]+")
+            select new Tuple<string, string, string>(name, rate, volume);
+
+        static readonly Parser<Tuple<string, string, string, string>> NewTtsAlias =
+            from define_keyword in Parse.String("define")
+            from spaces in Spaces
+            from tts_keyword in Parse.String("speaker")
+            from spaces2 in Spaces
+            from name in MaybeQuotedString
+            from spaces3 in Spaces
+            from voiceName in MaybeQuotedString
+            from spaces4 in Spaces
+            from rate in Parse.Regex(@"^\-?[0-9]+")
+            from spaces5 in Spaces
+            from volume in Parse.Regex("^[0-9]+")
+            select new Tuple<string, string, string, string>(name, voiceName, rate, volume);
 
         static readonly Parser<ConfigOp> AlertSoundAliasStatement =
             AlertSoundAlias.Select<Tuple<string, string>, ConfigOp>((Tuple<string, string> t) => ((TimelineConfig config) =>
@@ -157,7 +198,98 @@ namespace FairyZeta.FF14.ACT.Timeline.Core
                 AlertSoundData alertSound = config.AlertSoundAssets.Get(t.Item2);
                 config.AlertSoundAssets.RegisterAlias(alertSound, t.Item1);
             }));
+        static readonly Parser<ConfigOp> TtsAliasStatement =
+           TtsAlias.Select<Tuple<string, string, string>, ConfigOp>((Tuple<string, string, string> t) => ((TimelineConfig config) =>
+           {
+               var speaker = new TtsSpeaker(t.Item1, null, int.Parse(t.Item2), int.Parse(t.Item3));
+               config.Speakers.Add(speaker);
+           }));
 
+        static readonly Parser<ConfigOp> NewTtsAliasStatement =
+            NewTtsAlias.Select<Tuple<string, string, string, string>, ConfigOp>((Tuple<string, string, string, string> t) => ((TimelineConfig config) =>
+            {
+                var speaker = new TtsSpeaker(t.Item1, t.Item2, int.Parse(t.Item3), int.Parse(t.Item4));
+                config.Speakers.Add(speaker);
+            }));
+        static readonly Parser<Tuple<string, string>> Sound =
+           from before_keyword in Parse.String("before")
+           from spaces in Spaces
+           from reminderTime in Parse.Decimal
+           from spaces2 in Spaces
+           from sound_keyword in Parse.String("sound")
+           from spaces3 in Spaces
+           from soundName in MaybeQuotedString
+           select new Tuple<string, string>(reminderTime, soundName);
+
+        static readonly Parser<Tuple<string, string, string>> Tts =
+            from before_keyword in Parse.String("before")
+            from spaces in Spaces
+            from reminderTime in Parse.Decimal
+            from spaces2 in Spaces
+            from tts_keyword in Parse.String("speak")
+            from spaces3 in Spaces
+            from ttsName in MaybeQuotedString
+            from spaces4 in Spaces
+            from sentence in MaybeQuotedString
+            select new Tuple<string, string, string>(reminderTime, ttsName, sentence);
+
+        static readonly Parser<Tuple<string, string, string>> AlertAllSound =
+            from alertall in Parse.String("alertall")
+            from spaces in Spaces
+            from activityName in MaybeQuotedString
+            from spaces2 in Spaces
+            from sound in Sound
+            select new Tuple<string, string, string>(
+                activityName,
+                sound.Item1,
+                sound.Item2);
+
+        static readonly Parser<Tuple<string, string, string, string>> AlertAllTts =
+            from alertall in Parse.String("alertall")
+            from spaces in Spaces
+            from activityName in MaybeQuotedString
+            from spaces2 in Spaces
+            from tts in Tts
+            select new Tuple<string, string, string, string>(
+                activityName,
+                tts.Item1,
+                tts.Item2,
+                tts.Item3);
+        //fsdfsfdsfsfsfdf
+        static readonly Parser<ConfigOp> AlertAllSoundStatement =
+            AlertAllSound.Select<Tuple<string, string, string>, ConfigOp>((Tuple<string, string, string> t) => ((TimelineConfig config) =>
+            {
+                var alertSound = config.AlertSoundAssets.Get(t.Item3);
+                config.AlertAlls.Add(new AlertAll
+                {
+                    ActivityName = t.Item1,
+                    ReminderTime = Double.Parse(t.Item2),
+                    AlertSound = alertSound,
+                    Type = Core.AlertAll.AlertType.Sound
+                });
+            }));
+
+        static readonly Parser<ConfigOp> AlertAllTtsStatement =
+            AlertAllTts.Select<Tuple<string, string, string, string>, ConfigOp>((Tuple<string, string, string, string> t) => ((TimelineConfig config) =>
+            {
+                var speakers = config.Speakers.Where(x => x.Name == t.Item3);
+                if (speakers.Any())
+                {
+                    config.AlertAlls.Add(new AlertAll
+                    {
+                        ActivityName = t.Item1,
+                        ReminderTime = Double.Parse(t.Item2),
+                        TtsSpeaker = speakers.First(),
+                        TtsSentence = t.Item4,
+                        Type = Core.AlertAll.AlertType.Tts
+                    });
+                }
+                else
+                {
+                    throw new ParseException(string.Format("The TTS speaker named '{0}' is not defined.", t.Item3));
+                }
+            }));
+        //fsdfsfdsfsfsfdf
         static readonly Parser<Tuple<string, string, string>> AlertAll =
             from alertall in Parse.String("alertall")
             from spaces in Spaces
@@ -176,9 +308,15 @@ namespace FairyZeta.FF14.ACT.Timeline.Core
             AlertAll.Select<Tuple<string, string, string>, ConfigOp>((Tuple<string, string, string> t) => ((TimelineConfig config) =>
             {
                 var alertSound = config.AlertSoundAssets.Get(t.Item3);
-                config.AlertAlls.Add(new AlertAll { ActivityName = t.Item1, ReminderTime = Double.Parse(t.Item2), AlertSound = alertSound });
+                config.AlertAlls.Add(new AlertAll
+                {
+                    ActivityName = t.Item1,
+                    ReminderTime = Double.Parse(t.Item2),
+                    AlertSound = alertSound,
+                    Type = Core.AlertAll.AlertType.Sound
+                });
             }));
-
+        //
         static readonly Parser<string> HideAll =
             from hideall in Parse.String("hideall")
             from spaces in Spaces
@@ -192,10 +330,28 @@ namespace FairyZeta.FF14.ACT.Timeline.Core
             }));
 
         static readonly Parser<ConfigOp> EmptyStatement = Parse.Return<ConfigOp>((TimelineConfig config) => { });
-
+        //수정1
+        /*
         static readonly Parser<ConfigOp> TimelineStatement =
-            AlertSoundAliasStatement.Or(AlertAllStatement).Or(HideAllStatement).Or(TimelineActivityStatement).Or(EmptyStatement);
-
+            AlertSoundAliasStatement
+                .Or(AlertAllStatement)
+                .Or(HideAllStatement)
+                .Or(TimelineActivityStatement)
+                .Or(EmptyStatement);
+                */
+        static readonly Parser<ConfigOp> TimelineStatement =
+            AlertSoundAliasStatement
+                //
+                .Or(TtsAliasStatement)
+                .Or(NewTtsAliasStatement)
+                //
+                .Or(AlertAllSoundStatement)
+                .Or(AlertAllTtsStatement)
+                //
+                .Or(HideAllStatement)
+                .Or(TimelineActivityStatement)
+                .Or(EmptyStatement);
+        //수정1
         static readonly Parser<int> LineBreak = Parse.Or(Parse.Char('\n'), Parse.Char('\r')).AtLeastOnce().Return(TRASH);
         static readonly Parser<int> StatementSeparator =
             from beforeSpaces in Parse.Optional(Spaces)
@@ -232,7 +388,14 @@ namespace FairyZeta.FF14.ACT.Timeline.Core
             {
                 foreach (TimelineActivityData matchingActivity in config.Items.FindAll(activity => activity.Name == alertAll.ActivityName))
                 {
-                    var alert = new TimelineAlertObjectModel { Activity = matchingActivity, ReminderTimeOffset = alertAll.ReminderTime, AlertSoundData = alertAll.AlertSound };
+                    var alert = new TimelineAlertObjectModel
+                    {
+                        Activity = matchingActivity,
+                        ReminderTimeOffset = alertAll.ReminderTime,
+                        AlertSoundData = alertAll.AlertSound,
+                        TtsSpeaker = alertAll.TtsSpeaker,
+                        TtsSentence = alertAll.TtsSentence
+                    };
                     config.Alerts.Add(alert);
                 }
             }
