@@ -99,6 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConst.cs" />
+    <Compile Include="SynthesizerWrapper.cs" />
+    <Compile Include="TtsSpeaker.cs" />
     <Compile Include="Component\CommonComponent.cs" />
     <Compile Include="Component\TimelineComponent.cs" />
     <Compile Include="Component\OverlayViewComponent.cs">
@@ -139,7 +141,6 @@
     <Compile Include="Data\TimelineActivityData.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LibZResolver.cs" />
     <Compile Include="Module\AutoUpdateCheckModule.cs" />
     <Compile Include="ObjectModel\OverlayPreviewObjectModel.cs" />
     <Compile Include="ObjectModel\PluginHistoryObjectModel.cs" />
@@ -339,11 +340,9 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Advanced Combat Tracker">
-      <HintPath>..\..\ACTv3\Advanced Combat Tracker.exe</HintPath>
+      <HintPath>..\..\..\..\Advanced Combat Tracker.exe</HintPath>
     </Reference>
-    <Reference Include="LibZ.Bootstrap, Version=1.2.0.0, Culture=neutral, PublicKeyToken=62360e53307d6ba2, processorArchitecture=MSIL">
-      <HintPath>..\packages\LibZ.Bootstrap.1.2.0.0\lib\net4-client\LibZ.Bootstrap.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
@@ -358,6 +357,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Speech" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xaml" />
