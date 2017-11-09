@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SasaraSettingsDataSet" targetNamespace="http://tempuri.org/SasaraSettingsDataSet.xsd" xmlns:mstns="http://tempuri.org/SasaraSettingsDataSet.xsd" xmlns="http://tempuri.org/SasaraSettingsDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="SasaraSettingsDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="SasaraSettingsDataSet" msprop:Generator_UserDSName="SasaraSettingsDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="SasaraComponents" msprop:Generator_TableClassName="SasaraComponentsDataTable" msprop:Generator_TableVarName="tableSasaraComponents" msprop:Generator_RowChangedName="SasaraComponentsRowChanged" msprop:Generator_TablePropName="SasaraComponents" msprop:Generator_RowDeletingName="SasaraComponentsRowDeleting" msprop:Generator_RowChangingName="SasaraComponentsRowChanging" msprop:Generator_RowEvHandlerName="SasaraComponentsRowChangeEventHandler" msprop:Generator_RowDeletedName="SasaraComponentsRowDeleted" msprop:Generator_RowClassName="SasaraComponentsRow" msprop:Generator_UserTableName="SasaraComponents" msprop:Generator_RowEvArgName="SasaraComponentsRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:string" default="" />
+              <xs:element name="Name" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" default="" />
+              <xs:element name="Value" msprop:nullValue="0" msprop:Generator_ColumnPropNameInRow="Value" msprop:Generator_ColumnVarNameInTable="columnValue" msprop:Generator_ColumnPropNameInTable="ValueColumn" msprop:Generator_UserColumnName="Value" type="xs:unsignedInt" default="0" />
+              <xs:element name="Cast" msprop:Generator_ColumnVarNameInTable="columnCast" msprop:Generator_ColumnPropNameInRow="Cast" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInTable="CastColumn" msprop:Generator_UserColumnName="Cast" type="xs:string" default="" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
