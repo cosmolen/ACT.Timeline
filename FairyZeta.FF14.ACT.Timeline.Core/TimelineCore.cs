@@ -118,7 +118,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core
         {
             // ACT本体搭載のチェックボックスを削除
             if (this.pluginApplicationViewModel.CommonComponent.CommonDataModel.FormActMainControlData.ActCheckBox != null)
-                ActGlobals.oFormActMain.Controls.Remove(this.pluginApplicationViewModel.CommonComponent.CommonDataModel.FormActMainControlData.ActCheckBox);
+                ActGlobals.oFormActMain.CornerControlRemove(this.pluginApplicationViewModel.CommonComponent.CommonDataModel.FormActMainControlData.ActCheckBox);
 
             // コンポーネントの自動処理停止
             this.pluginApplicationViewModel.ApplicationExit();
@@ -183,30 +183,9 @@ namespace FairyZeta.FF14.ACT.Timeline.Core
             pCheckBox.Checked = pCommonComponent.CommonDataModel.PluginSettingsData.ActCheckBoxValue;
             pCheckBox.CheckedChanged += pCommonComponent.ActCheckBoxCheckedChanged;
 
-            Globals.SysLogger.WriteSystemLog.NonState.DEBUG.Write("Start Resize Setting.");
-            var formMain = ActGlobals.oFormActMain;
-            formMain.Resize += formMain_Resize;
-            formMain.Controls.Add(pCheckBox);
-            formMain.Controls.SetChildIndex(pCheckBox, 0);
-
-            formMain_Resize(this, null);
+            ActGlobals.oFormActMain.CornerControlAdd(pCheckBox);
             Globals.SysLogger.WriteSystemLog.NonState.DEBUG.Write("End CreateInjectButton.");
         }
-
-        /// <summary> チェックボックスリサイズ（配置変更）イベントを登録します。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void formMain_Resize(object sender, EventArgs e)
-        {
-            if (this.pluginApplicationViewModel == null)
-                return;
-
-            var mainFormSize = ActGlobals.oFormActMain.Size;
-            this.pluginApplicationViewModel.CommonComponent.CommonDataModel.FormActMainControlData.ActCheckBox.Location = new Point(mainFormSize.Width - 435, 0);
- 
-        }
-
 
         void SetupUpdateChecker()
         {
