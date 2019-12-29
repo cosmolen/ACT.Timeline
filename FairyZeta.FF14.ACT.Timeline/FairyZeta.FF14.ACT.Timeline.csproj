@@ -50,7 +50,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Advanced Combat Tracker">
-      <HintPath>..\..\ACTv3\Advanced Combat Tracker.exe</HintPath>
+      <HintPath>..\FairyZeta.FF14.ACT.Timeline.Core\3rdparty\Advanced Combat Tracker.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="LibZ.Bootstrap, Version=1.2.0.0, Culture=neutral, PublicKeyToken=62360e53307d6ba2, processorArchitecture=MSIL">
@@ -79,6 +79,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -126,13 +127,15 @@ move /Y .\*.dll .\dll
 
 set LIBZ="$(SolutionDir)packages\LibZ.Bootstrap.1.2.0.0\tools\libz.exe"
 
-EXE_7ZA="$(SolutionDir)packages\7ZipCLI.9.20.0\tools\7za.exe"
+set EXE_7ZA="$(SolutionDir)packages\7ZipCLI.9.20.0\tools\7za.exe"
 
 %25LIBZ%25 inject-dll --assembly .\dll\$(TargetName).dll --include .\dll\*.dll --exclude  .\dll\$(TargetName).dll
 
 move /Y .\dll\$(TargetName).dll .\FZ.Timeline
 xcopy /Y $(ProjectDir)\AppResources\timeline\txt\*.* .\FZ.Timeline\resources\timeline\
 xcopy /Y $(ProjectDir)\AppResources\timeline\wav\*.* .\FZ.Timeline\resources\wav\
+
+%25EXE_7ZA%25 a "$(SolutionDir)..\FZ.Timeline.zip" .\FZ.Timeline\FZ.Timeline.dll .\FZ.Timeline\resources
 :AllEnd</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
