@@ -264,6 +264,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.Component
             if (this.CommonDataModel.AppStatusData.AutoLoadStatus == TimelineLoadStatus.NowLoading) return;
             if (!this.CommonDataModel.PluginSettingsData.TimelineAutoLoadEnabled) return;
             if (ActGlobals.oFormActMain == null) return;
+            if (!ActGlobals.oFormActMain.InitActDone) return;
 
             var zonename = ActGlobals.oFormActMain.CurrentZone;
             if (zonename.Length == 0) return;
@@ -276,14 +277,23 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.Component
                 Globals.SysLogger.WriteSystemLog.Success.INFO.Write(string.Format("Timeline AutoLoad Start. ( Zone = {0} )", zonename), Globals.ProjectName);
                 this.CommonDataModel.AppStatusData.AutoLoadStatus = TimelineLoadStatus.NowLoading;
 
-                var file = zonename;
-                foreach (char c in System.IO.Path.GetInvalidFileNameChars())
-                {
-                    file = file.Replace(c, '_');
-                }
-
                 List<string> findList = new List<string>();
-                findList.Add(string.Format("{0}.txt", file));
+
+                List<char> replacementList = new List<char>();
+                replacementList.Add('_');
+                replacementList.Add('-');
+
+                foreach (char replacement in replacementList)
+                {
+                    var safeFileName = zonename;
+                    foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+                    {
+                        safeFileName = safeFileName.Replace(c, replacement);
+                    }
+
+                    findList.Add(String.Format("{0}.txt", safeFileName));
+                    findList.Add(String.Format("{0}.txt", safeFileName.Replace($"{replacement} ", $" {replacement} ")));
+                }
 
                 foreach (string findName in findList)
                 {
