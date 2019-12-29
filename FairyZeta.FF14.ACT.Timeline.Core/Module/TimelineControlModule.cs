@@ -19,7 +19,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.Module
     /// </summary>
     public class TimelineControlModule : _Module
     {
-      /*--- Property/Field Definitions ------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Property/Field Definitions ------------------------------------------------------------------------------------------------------------------------------*/
 
         /// <summary> 戦闘用メインタイマー
         /// </summary>
@@ -37,7 +37,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.Module
         /// </summary>
         private SoundPlayProcess soundPlayProcess;
 
-      /*--- Constructers --------------------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Constructers --------------------------------------------------------------------------------------------------------------------------------------------*/
 
         /// <summary> タイムライン／タイムライン操作モジュール
         /// </summary>
@@ -47,7 +47,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.Module
             this.initModule();
         }
 
-      /*--- Method: Initialization ----------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Method: Initialization ----------------------------------------------------------------------------------------------------------------------------------*/
 
         /// <summary> モジュールの初期化を実行します。
         /// </summary>
@@ -62,7 +62,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.Module
             return true;
         }
 
-      /*--- Method: public ------------------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Method: public ------------------------------------------------------------------------------------------------------------------------------------------*/
 
         /// <summary> タイマーのセットアップを実行します。
         /// </summary>
@@ -71,7 +71,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.Module
             this.CurrentCombatTimer.Interval = TimeSpan.FromMilliseconds(33);
             this.AutoLoadTimer.Interval = TimeSpan.FromMilliseconds(3000);
         }
-        
+
         /// <summary> タイマー処理を開始します。
         /// </summary>
         public void TimerStart(CommonDataModel pCommonDM, TimelineObjectModel pTimelineOM)
@@ -199,9 +199,20 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.Module
             var pendingAlerts = pTimelineOM.PendingAlertsAt(pTimelineOM.TimerData.CurrentCombatTime, AppConst.TooOldThreshold);
             foreach (var pendingAlert in pendingAlerts)
             {
-                pendingAlert.Processed = soundPlayProcess.PlayAlert(pendingAlert, pCommonDM.PluginSettingsData.PlaySoundByACT);
-                pCommonDM.TimelineLogCollection.Add(
-                    Globals.TimelineLogger.WriteSystemLog.Success.INFO.Write(string.Format("PendingAlerts: {0}", pendingAlert.AlertSoundData.Filename), Globals.ProjectName));
+                if (pendingAlert.AlertSoundData != null)
+                {
+                    pendingAlert.Processed = soundPlayProcess.PlayAlert(pendingAlert, pCommonDM.PluginSettingsData.PlaySoundByACT);
+                    pCommonDM.TimelineLogCollection.Add(
+                        Globals.TimelineLogger.WriteSystemLog.Success.INFO.Write(string.Format("PendingAlerts: {0}", pendingAlert.AlertSoundData.Filename), Globals.ProjectName));
+                }
+                else
+                {
+                    pendingAlert.Processed = pendingAlert.TtsSpeaker.Synthesizer.SpeakAsync(pendingAlert.TtsSentence);
+                    //pCommonDM.TimelineLogCollection.Add(
+                    //    Globals.TimelineLogger.WriteSystemLog.Success.INFO.Write(string.Format("PendingAlerts: {0}", pendingAlert.TtsSentenc), Globals.ProjectName));
+                }
+                //pCommonDM.TimelineLogCollection.Add(
+                //    Globals.TimelineLogger.WriteSystemLog.Success.INFO.Write(string.Format("PendingAlerts: {0}", pendingAlert.AlertSoundData.Filename), Globals.ProjectName));
             }
         }
 
@@ -242,7 +253,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.Module
 
                 case TimerStatus.Init:
                 case TimerStatus.Stop:
-                    
+
                     pCommonDM.AppEnableManageData.TimelineFileLoadEnabled = true;
                     if (pCommonDM.SelectedTimelineFileData == null)
                     {
@@ -261,7 +272,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.Module
 
         }
 
-      /*--- Method: private -----------------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Method: private -----------------------------------------------------------------------------------------------------------------------------------------*/
 
 
     }

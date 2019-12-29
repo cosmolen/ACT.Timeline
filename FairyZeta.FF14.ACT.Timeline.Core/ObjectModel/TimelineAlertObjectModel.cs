@@ -13,7 +13,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
     /// </summary>
     public class TimelineAlertObjectModel : IComparable<TimelineAlertObjectModel>, IAlertSoundIO
     {
-      /*--- Property/Field Definitions ------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Property/Field Definitions ------------------------------------------------------------------------------------------------------------------------------*/
 
         /// <summary> このサウンドの開始時間
         /// </summary>
@@ -25,13 +25,14 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
         /// <summary> アラートサウンドデータ
         /// </summary>
         public AlertSoundData AlertSoundData { get; set; }
-
+        public TtsSpeaker TtsSpeaker { get; set; }
+        public string TtsSentence { get; set; }
         /// <summary> このサウンドの再生状態
         /// <para> => 再生済: True, 未再生: False  </para>
         /// </summary>
         public bool Processed { get; set; }
 
-      /*--- Constructers --------------------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Constructers --------------------------------------------------------------------------------------------------------------------------------------------*/
 
         /// <summary> タイムライン／アラートオブジェクトモデル／コンストラクタ
         /// </summary>
@@ -40,7 +41,7 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
             this.initObjectModel();
         }
 
-      /*--- Method: Initialization ----------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Method: Initialization ----------------------------------------------------------------------------------------------------------------------------------*/
 
         /// <summary> オブジェクトモデルの初期化を実行します。
         /// </summary>
@@ -51,9 +52,9 @@ namespace FairyZeta.FF14.ACT.Timeline.Core.ObjectModel
             return true;
         }
 
-      /*--- Method: public ------------------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Method: public ------------------------------------------------------------------------------------------------------------------------------------------*/
 
-      /*--- Method: private -----------------------------------------------------------------------------------------------------------------------------------------*/
+        /*--- Method: private -----------------------------------------------------------------------------------------------------------------------------------------*/
 
         public double ReminderTimeOffset { get; set; }
         public TimelineActivityData Activity { get; set; }

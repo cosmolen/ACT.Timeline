@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9A615561-6CEC-4857-870F-88F6FF07764C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ACT.TTSYukkuri</RootNamespace>
+    <AssemblyName>ACT.TTSYukkuri</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Advanced Combat Tracker">
+      <HintPath>C:\Program Files (x86)\Advanced Combat Tracker\Advanced Combat Tracker.exe</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\NAudio-Release\NAudio.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Boyomichan\BoyomichanSpeechController.cs" />
+    <Compile Include="Boyomichan\BoyomiSettingPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Boyomichan\BoyomiSettingPanel.Designer.cs">
+      <DependentUpon>BoyomiSettingPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Config\HOYAConfig.cs" />
+    <Compile Include="Config\OpenJTalkConfig.cs" />
+    <Compile Include="Config\OptionsConfig.cs" />
+    <Compile Include="Config\SasaraConfig.cs" />
+    <Compile Include="Config\TTSYukkuriConfig.cs" />
+    <Compile Include="Config\WatchTargets.cs" />
+    <Compile Include="FF14PluginHelper.cs" />
+    <Compile Include="FF14Watcher.cs" />
+    <Compile Include="FF14Watcher.FF14PluginWrapper.cs" />
+    <Compile Include="FF14Watcher.PartyWatcher.cs" />
+    <Compile Include="HOYA\HOYASettingsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HOYA\HOYASettingsPanel.Designer.cs">
+      <DependentUpon>HOYASettingsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HOYA\HOYASpeechController.cs" />
+    <Compile Include="HOYA\VoiceTextWebAPI.Client\Emotion.cs" />
+    <Compile Include="HOYA\VoiceTextWebAPI.Client\EmotionLevel.cs" />
+    <Compile Include="HOYA\VoiceTextWebAPI.Client\Speaker.cs" />
+    <Compile Include="HOYA\VoiceTextWebAPI.Client\VoiceTextClient.cs" />
+    <Compile Include="HOYA\VoiceTextWebAPI.Client\VoiceTextErrorResponse.cs" />
+    <Compile Include="HOYA\VoiceTextWebAPI.Client\VoiceTextException.cs" />
+    <Compile Include="ISpeachController.cs" />
+    <Compile Include="KanjiTranslator.cs" />
+    <Compile Include="OpenJTalk\OpenJTalkSettingsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OpenJTalk\OpenJTalkSettingsPanel.Designer.cs">
+      <DependentUpon>OpenJTalkSettingsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OpenJTalk\OpenJTalkSpeechController.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Sasara\SasaraSettingsDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SasaraSettingsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Sasara\SasaraSettingsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sasara\SasaraSettingsPanel.Designer.cs">
+      <DependentUpon>SasaraSettingsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sasara\SasaraSpeechController.cs" />
+    <Compile Include="SoundPlayer\NAudioPlayer.cs" />
+    <Compile Include="SoundPlayerWrapper.cs" />
+    <Compile Include="SpeechController.cs" />
+    <Compile Include="SpeechControllerBase.cs" />
+    <Compile Include="StringExtension.cs" />
+    <Compile Include="TTSServer\TTSServerController.cs" />
+    <Compile Include="TTSYukkuriConfigPanel.Options.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UpdateChecker.cs" />
+    <Compile Include="Yukkuri\YukkuriSettingsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Yukkuri\YukkuriSettingsPanel.Designer.cs">
+      <DependentUpon>YukkuriSettingsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Yukkuri\YukkuriSpeechController.cs" />
+    <Compile Include="TTSType.cs" />
+    <Compile Include="TTSYukkuriConfigPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TTSYukkuriConfigPanel.Designer.cs">
+      <DependentUpon>TTSYukkuriConfigPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TTSYukkuriPlugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Boyomichan\BoyomiSettingPanel.resx">
+      <DependentUpon>BoyomiSettingPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HOYA\HOYASettingsPanel.resx">
+      <DependentUpon>HOYASettingsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OpenJTalk\OpenJTalkSettingsPanel.resx">
+      <DependentUpon>OpenJTalkSettingsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sasara\SasaraSettingsPanel.resx">
+      <DependentUpon>SasaraSettingsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TTSYukkuriConfigPanel.resx">
+      <DependentUpon>TTSYukkuriConfigPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Yukkuri\YukkuriSettingsPanel.resx">
+      <DependentUpon>YukkuriSettingsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenJTalk\dic\char.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\dic\matrix.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\dic\sys.dic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\dic\unk.dic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\voice\man_m001.htsvoice">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\voice\mei_angry.htsvoice">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\voice\mei_bashful.htsvoice">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\voice\mei_happy.htsvoice">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\voice\mei_normal.htsvoice">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\voice\mei_sad.htsvoice">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\voice\type-alpha.htsvoice">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenJTalk\voice\type-beta.htsvoice">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Sasara\SasaraSettingsDataSet.xsc">
+      <DependentUpon>SasaraSettingsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Sasara\SasaraSettingsDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SasaraSettingsDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Sasara\SasaraSettingsDataSet.xss">
+      <DependentUpon>SasaraSettingsDataSet.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ACT.TTSYukkuri.TTSServer.Core\ACT.TTSYukkuri.TTSServer.Core.csproj">
+      <Project>{5e73b99c-8fb8-4b3a-9fd0-c4179cd86036}</Project>
+      <Name>ACT.TTSYukkuri.TTSServer.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="OpenJTalk\dic\left-id.def">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OpenJTalk\dic\pos-id.def">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OpenJTalk\dic\rewrite.def">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OpenJTalk\dic\right-id.def">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OpenJTalk\dic\user_dictionary.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OpenJTalk\open_jtalk.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OpenJTalk\opne_jtalk_usage.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
